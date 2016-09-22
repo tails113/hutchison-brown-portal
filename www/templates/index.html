@@ -2,11 +2,19 @@
 <script src="/static/bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
 <link rel="import" href="/static/x-navigation.html">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ payload.title }}</title>
   </head>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+    }  
+  </style>
   <body>
     <x-navigation payload="{{ payload }}"></x-navigation>
   </body>
