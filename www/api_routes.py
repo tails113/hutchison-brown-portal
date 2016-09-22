@@ -37,7 +37,8 @@ def internal_401_error( exception ):
 def index( ):
     url = request.url_root
     domain_name = urlparse(url).netloc
-    return render_template('index.html', payload={'title': 'hello'})
+    payload = {"title": "hello", "domain": domain_name}
+    return render_template('index.html', payload=payload)
 
 if __name__ == "__main__":
      pass
