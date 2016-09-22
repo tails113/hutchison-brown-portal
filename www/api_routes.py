@@ -6,6 +6,7 @@ import requests
 import pprint
 import string, random
 import datetime
+from urlparse import urlparse
 from flask import Flask, request, render_template, make_response
 from jinja2 import Environment, PackageLoader
 import local_settings
