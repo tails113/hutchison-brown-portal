@@ -4,5 +4,8 @@
   "description": "Portal for hutchison-brown.",
   "main": "index.html",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "app-layout": "PolymerElements/app-layout#^0.10.4"
+  }
 }
