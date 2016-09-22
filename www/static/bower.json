@@ -1,0 +1,8 @@
+{
+  "name": "hutchison-brown-portal",
+  "homepage": "https://github.com/tails113/hutchison-brown-portal",
+  "description": "Portal for hutchison-brown.",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true
+}
