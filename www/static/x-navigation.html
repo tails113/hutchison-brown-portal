@@ -8,24 +8,40 @@
 <dom-module id="x-navigation">
   <template>
     <style>
-      :host {
-        display: block;
-      }
+       app-header {
+       background-color: #3F51B5;
+       color: #fff;
+       }
+       app-header paper-icon-button {
+       --paper-icon-button-ink-color: white;
+       }
     </style>
 
     <app-drawer-layout>
       <app-drawer>
-        drawer-content
+        <app-toolbar>
+	</app-toolbar>
+	<ul class="nav-link">
+	  <li>
+	    <a>Register</span></a>
+          </li>
+        </ul>
       </app-drawer>
+
       <app-header-layout>
-        <app-header>
+
+        <app-header reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>{{ payload.title }}</div>
+            <div main-title>Sample Title</div>
           </app-toolbar>
         </app-header>
-        main content
+
+	<div class="content-wrapper">
+	</div>
+	
       </app-header-layout>
+
     </app-drawer-layout>
 
   </template>
