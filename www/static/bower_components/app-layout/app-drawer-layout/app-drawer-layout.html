@@ -180,27 +180,19 @@ Custom property                          | Description                          
           type: Boolean,
           readOnly: true,
           notify: true
-        },
-
-        /**
-         * If true, the drawer will initially be opened when in narrow layout mode.
-         */
-        openedWhenNarrow: {
-          type: Boolean,
-          value: false
         }
       },
 
+      _notifyingResize: false,
+
       listeners: {
         'tap': '_tapHandler',
-        'app-drawer-attached': '_resetDrawerState',
         'app-drawer-reset-layout': 'resetLayout',
-        'iron-resize': 'resetLayout'
+        'iron-resize': '_resizeHandler'
       },
 
       observers: [
-        'resetLayout(narrow, isAttached)',
-        '_narrowChanged(narrow, isAttached)'
+        'resetLayout(narrow, isAttached)'
       ],
 
       /**
@@ -215,10 +207,7 @@ Custom property                          | Description                          
       _tapHandler: function(e) {
         var target = Polymer.dom(e).localTarget;
         if (target && target.hasAttribute('drawer-toggle')) {
-          var drawer = this.drawer;
-          if (drawer && !drawer.persistent) {
-            drawer.toggle();
-          }
+          this.drawer.toggle();
         }
       },
 
@@ -227,11 +216,17 @@ Custom property                          | Description                          
           var drawer = this.drawer;
           var contentContainer = this.$.contentContainer;
 
-          if (this.narrow || !drawer) {
+          if (this.narrow) {
+            drawer.opened = drawer.persistent = false;
+            contentContainer.classList.add('narrow');
+
             contentContainer.style.marginLeft = '';
             contentContainer.style.marginRight = '';
           } else {
-            var drawerWidth = drawer.getWidth();
+            drawer.opened = drawer.persistent = true;
+            contentContainer.classList.remove('narrow');
+
+            var drawerWidth = this.drawer.getWidth();
             if (drawer.position == 'right') {
               contentContainer.style.marginLeft = '';
               contentContainer.style.marginRight = drawerWidth + 'px';
@@ -240,29 +235,17 @@ Custom property                          | Description                          
               contentContainer.style.marginRight = '';
             }
           }
+
+          this._notifyingResize = true;
+          this.notifyResize();
+          this._notifyingResize = false;
         });
       },
 
-      _resetDrawerState: function() {
-        this.debounce('_resetDrawerState', function() {
-          var drawer = this.drawer;
-          if (!drawer) {
-            return;
-          }
-
-          if (this.narrow) {
-            drawer.opened = this.openedWhenNarrow;
-            drawer.persistent = false;
-          } else {
-            drawer.opened = drawer.persistent = true;
-          }
-        });
-      },
-
-      _narrowChanged: function(narrow) {
-        this.toggleClass('narrow', narrow, this.$.contentContainer);
-        this._resetDrawerState();
-        this.notifyResize();
+      _resizeHandler: function() {
+        if (!this._notifyingResize) {
+          this.resetLayout();
+        }
       },
 
       _onQueryMatchesChanged: function(event) {

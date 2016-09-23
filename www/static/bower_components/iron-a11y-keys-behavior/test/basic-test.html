@@ -329,7 +329,8 @@ suite('Polymer.IronA11yKeysBehavior', function() {
 
       event.ctrlKey = true;
       event.shiftKey = true;
-      event.key = 'A';
+      event.key = 'å';
+      event.keyCode = event.code = 65;
 
       keys.dispatchEvent(event);
 
