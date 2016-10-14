@@ -5,7 +5,10 @@
 <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html"></link>
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html"></link>
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html"></link>
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="x-navigation">
   <template>
     <style>
@@ -18,9 +21,19 @@
        }
     </style>
 
+    <iron-ajax
+       id="getUser"
+       url="/static/getUser.json"
+       headers='{"Content-Type": "application/json"}'
+       method='GET'
+       handle-as="json"
+       on-response="setUser"
+       >
+    </iron-ajax>
+
   <app-drawer-layout>
 
-      <app-drawer>
+      <app-drawer id="menuDrawer">
         <app-toolbar>
           <p>Logo</p>
         </app-toolbar>
@@ -29,17 +42,31 @@
           </ul>
       </app-drawer>
 
+      <app-drawer align="end" id="profileDrawer">
+        <app-toolbar>
+          <p>Profile</p>
+        </app-toolbar>
+          <ul>
+            <li>Account</li>
+          </ul>
+      </app-drawer>
+
 
       <app-header-layout>
 
-        <app-header reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>Home</div>
+        <app-header fixed condenses effects="waterfall">
+          <app-toolbar sticky>
+            <paper-icon-button icon="menu" onclick="toggleMenu"></paper-icon-button>
+            <div main-title></div>
+	    <paper-icon-button icon="account-circle" onclick="toggleProfile"></paper-icon-button>
           </app-toolbar>
+	  <app-toolbar>
+	    <div spacer main-title>{{ payload.title }}</div>
+	  </app-toolbar>
         </app-header>
+
         <div class="content-wrapper">
-        </div>
+	</div>
 
       </app-header-layout>
 
@@ -48,7 +75,16 @@
   </template>
   <script>
     Polymer({
-      is: 'x-navigation'
+      is: 'x-navigation',
+      properties: { payload: { type: Object, notify: true} },
+      setUser: function( e ) {
+        this.payload = e.detail.response;
+        console.log(e.detail.response);
+        console.log(this.payload);
+      },
+      ready: function( ) {
+        this.$.getUser.generateRequest();
+      }
     });
   </script>
 </dom-module>
