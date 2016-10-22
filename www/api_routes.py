@@ -40,7 +40,7 @@ def index( ):
     payload = {
          "title": "Hutchison-Brown", "domain": domain_name
     }
-    return render_template('index.html', payload=payload)
+    return render_template('login.html', payload=payload)
 
 if __name__ == "__main__":
      pass
