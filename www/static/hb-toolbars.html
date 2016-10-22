@@ -1,0 +1,131 @@
+<link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
+<link rel="import" href="/static/bower_components/iron-icon/iron-icon.html"></link>
+<link rel="import" href="/static/bower_components/iron-icons/iron-icons.html"></link>
+<link rel="import" href="/static/bower_components/paper-fab/paper-fab.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-toolbar/app-toolbar.html"></link>
+<link rel="import" href="/static/bower_components/iron-ajax/iron-ajax.html"></link>
+<link rel="import" href="/static/bower_components/paper-toast/paper-toast.html"></link>
+<link rel="import" href="/static/bower_components/paper-tooltip/paper-tooltip.html"></link>
+
+<dom-module id="hb-form-header">
+  <template>
+    <style>
+      paper-toolbar {
+        background: var(--color);
+        color: var(--background-color);
+      }
+      paper-fab.green {
+        --paper-fab-background: var(--paper-green-200);
+      }
+      paper-fab.header {
+        margin-top: 65px;
+        margin-right: 10px;
+      }
+    </style>
+
+    <iron-ajax
+       id="ajaxPostData"
+       url="{{url}}"
+       body="{{data}}"
+       headers='{"Content-Type": "application/json"}'
+       method="POST"
+       handle-as="json"
+       on-response="getResponse"
+       >
+    </iron-ajax>
+
+    <paper-toast text="{{message}}" duration="3000"></paper-toast>
+      <paper-toolbar>
+        <paper-icon-button icon="{{icon}}"></paper-icon-button>
+        <span class="title">{{title}}</span>
+	<template is="dom-if" if="{{delete}}">
+          <paper-fab mini id="discardButton" disabled="{{button_disabled}}"  icon="icons:delete" class="header" on-click="_boundHandleDelete"></paper-fab>
+          <paper-tooltip for="discardButton" offset="0">Discard</paper-tooltip>
+	</template>
+	<template is="dom-if" if="{{save}}">
+          <paper-fab mini id="saveButton" disabled="{{button_disabled}}" icon="icons:save" class="header green" on-click="submitForm"></paper-fab>
+          <paper-tooltip for="saveButton" offset="0">Save</paper-tooltip>
+	</template>
+      </paper-toolbar>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-form-header',
+      properties: {
+        icon: {
+          type: String,
+          notify: true,
+          value: 'icons:settings'
+        },
+        data: {
+          type: Object,
+          notify: true
+        },
+        url: {
+         type: String,
+         notify: true
+        },
+        title: {
+          type: String,
+          notify: true
+        },
+        field_color: {
+          type: String,
+          value: 'blue'
+        },
+        button_disabled: {
+          type: Boolean,
+          notify: true,
+          value: true
+        },
+        delete : {
+          type: Boolean,
+          value: false
+        },
+        save : {
+          type: Boolean,
+          value: true
+        },
+        _boundHandleDelete: {
+          type: Function,
+          value: function( ) {
+            return this._handleDelete.bind(this);
+          }
+        }
+      },
+      _handleDelete: function( e ) {
+        this.fire('delete_func');
+      },
+      enableSave: function( ) {
+        this.button_disabled = false;
+      },
+      disableToast: function( message ) {
+        this.message = message;
+        this.disableSave();
+        this.querySelector('paper-toast').open();
+      },
+      disableSave: function( ) {
+        this.button_disabled = true;
+      },
+      ready: function( ) {
+        this.customStyle['--color'] = this.field_color;
+        this.customStyle['--background-color'] = this.background_color;
+      },
+      setData: function( e ) {
+        this.data = e.detail.response;
+      },
+      submitForm: function( ) {
+        this.$.ajaxPostData.generateRequest();
+      },
+      getResponse: function( e ) {
+        this.form_response = e.detail.response;
+        this.message = this.form_response.message
+        this.querySelector('paper-toast').open();
+        if (this.form_response.success) {
+          this.disableSave();
+        }
+      }
+    });
+  </script>
+</dom-module

@@ -1,0 +1,55 @@
+<link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-drawer-layout/app-drawer-layout.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-drawer/app-drawer.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-header-layout/app-header-layout.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-header/app-header.html"></link>
+<link rel="import" href="/static/bower_components/app-layout/app-toolbar/app-toolbar.html"></link>
+<link rel="import" href="/static/bower_components/paper-icon-button/paper-icon-button.html"></link>
+
+<dom-module id="hb-core-dasboard">
+  <template>
+    <style>
+
+    </style>
+
+    <app-drawer-layout>
+      <app-drawer>
+	drawer-content
+      </app-drawer>
+      <app-header-layout>
+	<app-header>
+	  <app-toolbar>
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <div main-title>App name</div>
+	  </app-toolbar>
+	</app-header>
+      </app-header-layout>
+    </app-drawer-layout>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-core-dashboard',
+      properties: {
+        color: { 
+          value: '#3F51B5' 
+        },
+        error_color: { 
+          value: 'red' 
+        },
+        text: { 
+          value: 'black' 
+        },
+        background: { 
+          value: 'white' 
+        },
+      },
+      ready: function( ) {
+        this.customStyle['--color'] = this.color
+        this.customStyle['--text-color'] = this.text;
+        this.customStyle['--error-color'] = this.error_color;
+        this.customStyle['--background-color'] = this.background;
+      }
+    });
+  </script>
+</dom-module

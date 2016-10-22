@@ -1,0 +1,343 @@
+<link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
+<link rel="import" href="/static/bower_components/paper-input/paper-input.html"></link>
+<link rel="import" href="/static/bower_components/paper-input/paper-input-behavior.html"></link>
+<link rel="import" href="/static/bower_components/gold-email-input/gold-email-input.html"></link>
+
+<dom-module id="hb-email">
+  <template>
+    <style>
+      gold-email-input {
+        --paper-input-container-focus-color: var(--color) ;
+        --paper-input-container-color: var(--color) ;
+        --paper-input-container-input-color: var(--text-color);
+        --paper-input-container-invalid-color: var(--error-color);
+        --paper-input-char-counter: {
+          color: var(--text-color);
+        }
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <gold-email-input label="{{label}}" value="{{field}}" required="{{isRequired(validation_text)}}" auto-validate="{{isRequired(validation_text)}}" error-message="{{validation_text}}" disabled="{{userRightsEdit(user_rights)}}"></gold-email-input>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-email',
+      properties: {
+        validation_text: {
+          type: String,
+          value: undefined
+        },
+        required: {
+          type: Boolean,
+          value: false
+        },
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: String,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'black'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+        error_color: {
+          type: String,
+          value: 'red'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+       this.customStyle['--error-color'] = this.error_color;
+      },
+      isRequired: function( validation_text ) {
+        if (this.validation_text) {
+          this.required = true;
+          return this.required;
+        }
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+<dom-module id="hb-mobile">
+  <template>
+    <style>
+      paper-input {
+        --paper-input-container-focus-color: var(--color) ;
+        --paper-input-container-color: var(--color) ;
+        --paper-input-container-input-color: var(--text-color);
+        --paper-input-container-invalid-color: var(--error-color);
+        --paper-input-char-counter: {
+          color: var(--text-color);
+        }
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-input label="{{label}}" value="{{field}}" required="{{isRequired(validation_text)}}" auto-validate="{{isRequired(validation_text)}}" error-message="{{validation_text}}" disabled="{{userRightsEdit(user_rights)}}" allowed-pattern="[\d+]" char-counter maxlength="11" minlength="11"></paper-input>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-mobile',
+      properties: {
+        validation_text: {
+          type: String,
+          value: undefined
+        },
+        required: {
+          type: Boolean,
+          value: false
+        },
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: String,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'black'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+        error_color: {
+          type: String,
+          value: 'red'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+       this.customStyle['--error-color'] = this.error_color;
+      },
+      isRequired: function( validation_text ) {
+        if (this.validation_text) {
+          this.required = true;
+          return this.required;
+        }
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+<dom-module id="hb-text">
+  <template>
+    <style>
+      paper-input {
+        --paper-input-container-focus-color: var(--color) ;
+        --paper-input-container-color: var(--color) ;
+        --paper-input-container-input-color: var(--text-color);
+        --paper-input-container-invalid-color: var(--error-color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-input label="{{label}}" value="{{field}}" required="{{isRequired(validation_text)}}" auto-validate="{{isRequired(validation_text)}}" error-message="{{validation_text}}" disabled="{{userRightsEdit(user_rights)}}"></paper-input>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-text',
+      properties: {
+        validation_text: {
+          type: String,
+          value: undefined
+        },
+        required: {
+          type: Boolean,
+          value: false
+        },
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: String,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'black'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+        error_color: {
+          type: String,
+          value: 'red'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+       this.customStyle['--error-color'] = this.error_color;
+      },
+      isRequired: function( validation_text ) {
+        if (this.validation_text) {
+          this.required = true;
+          return this.required;
+        }
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+<dom-module id="hb-password">
+  <template>
+    <style>
+      paper-input {
+        --paper-input-container-focus-color: var(--color) ;
+        --paper-input-container-color: var(--color) ;
+        --paper-input-container-input-color: var(--text-color);
+        --paper-input-container-invalid-color: var(--error-color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-input label="{{label}}" value="{{field}}" required="{{isRequired(validation_text)}}" auto-validate="{{isRequired(validation_text)}}" error-message="{{validation_text}}" type="password" disabled="{{userRightsEdit(user_rights)}}"></paper-input>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-password',
+      properties: {
+        validation_text: {
+          type: String,
+          value: undefined
+        },
+        required: {
+          type: Boolean,
+          value: false
+        },
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: String,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'black'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+        error_color: {
+          type: String,
+          value: 'red'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+       this.customStyle['--error-color'] = this.error_color;
+      },
+      isRequired: function( validation_text ) {
+        if (this.validation_text) {
+          this.required = true;
+          return this.required;
+        }
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+

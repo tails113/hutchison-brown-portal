@@ -1,0 +1,78 @@
+<link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
+<link rel="import" href="/static/bower_components/paper-dropdown-menu/paper-dropdown-menu.html"></link>
+<link rel="import" href="/static/bower_components/paper-listbox/paper-listbox.html"></link>
+<link rel="import" href="/static/bower_components/paper-item/paper-item.html"></link>
+
+<dom-module id="hb-dropdown-menu">
+  <template>
+    <style>
+      paper-dropdown-menu {
+        --paper-input-container-focus-color: var(--color);
+        --paper-input-container-color: var(--color);
+        --paper-input-container-input-color: var(--text-color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-dropdown-menu  label="{{label}}" disabled="{{userRightsEdit(user_rights)}}">
+	<paper-listbox attr-for-selected="value" selected="{{selection}}"  class="dropdown-content">
+	  <template is="dom-repeat" items="{{field}}">
+	    <paper-item value={{item}}>{{item}}</paper-item>
+	  </template>
+        </paper-listbox>
+      </paper-dropdown-menu>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-dropdown-menu',
+      properties: {
+        selection: {
+          type: String,
+          value: "",
+          notify: true
+        },
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: Object,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'blue'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>

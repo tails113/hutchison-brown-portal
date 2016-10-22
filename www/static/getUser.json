@@ -1,6 +1,0 @@
-{
-    "title": "Hutchison-Brown",
-    "user_rights": {
-        "invoice": {"read": true, "write": true}
-    }
-}

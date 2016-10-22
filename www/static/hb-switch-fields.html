@@ -1,0 +1,277 @@
+<link rel="import" href="/static/bower_components/polymer/polymer.html"></link>
+<link rel="import" href="/static/bower_components/paper-input/paper-input.html"></link>
+<link rel="import" href="/static/bower_components/paper-button/paper-button.html"></link>
+<link rel="import" href="/static/bower_components/paper-input/paper-input-behavior.html"></link>
+<link rel="import" href="/static/bower_components/paper-toggle-button/paper-toggle-button.html"></link>
+<link rel="import" href="/static/bower_components/paper-checkbox/paper-checkbox.html"></link>
+<link rel="import" href="/static/bower_components/paper-toast/paper-toast.html"></link>
+
+<dom-module id="hb-switch">
+  <template>
+    <style>
+      paper-toggle-button {
+       --paper-toggle-button-checked-bar-color: var(--color);
+       --paper-toggle-button-checked-button-color: var(--color);
+       --paper-toggle-button-label-color: var(--color);
+       height: 45px;
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-toggle-button noink disabled="{{userRightsEdit(user_rights)}}" checked={{field}} active={{field}} >{{label}}</paper-toggle-button>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-switch',
+      properties: {
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: Boolean,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: '#3F51B5'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+
+<dom-module id="hb-switch-text">
+  <template>
+    <style>
+      paper-toggle-button {
+       --paper-toggle-button-checked-bar-color: var(--color);
+       --paper-toggle-button-checked-button-color: var(--color);
+       --paper-toggle-button-label-color: var(--color);
+       height: 45px;
+      }
+      paper-input {
+        --paper-input-container-focus-color: var(--color) ;
+        --paper-input-container-color: var(--color) ;
+        --paper-input-container-input-color: var(--text-color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-toggle-button noink disabled="{{userRightsEdit(user_rights)}}" checked={{field.enabled}} active={{field.enabled}} >{{label}}</paper-toggle-button>
+      <template is="dom-if" if="{{field.enabled}}">
+	<paper-input class="text-field" label="{{text_label}}" value="{{field.value}}" ></paper-input>
+      </template>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-switch-text',
+      properties: {
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: Object,
+          notify: true
+        },
+        text_label: {
+          type: String,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: '#3F51B5'
+        },
+        text_color: {
+          type: String,
+          value: 'black'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+<dom-module id="hb-check-box">
+  <template>
+    <style>
+      paper-checkbox {
+        --paper-checkbox-checked-color: var(--color);
+        --paper-checkbox-unchecked-color: var(--color);
+        --paper-checkbox-label-color: var(--color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-checkbox noink disabled="{{userRightsEdit(user_rights)}}" checked={{field}} active={{field}} >{{label}}</paper-checkbox>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-check-box',
+      properties: {
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: Boolean,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: '#3F51B5'
+        },
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+    });
+  </script>
+</dom-module>
+
+<dom-module id="hb-button">
+  <template>
+    <style>
+      paper-button {
+        background-color: var(--color);
+        color: var(--text-color);
+      }
+    </style>
+
+    <template is="dom-if" if="{{userRightsView(user_rights)}}">
+      <paper-toast text="{{message}}" duration="3000"></paper-toast>
+      <paper-button noink raised  on-click="_boundOnClick" disabled="{{userRightsEdit(user_rights)}}" >{{label}}</paper-button>
+    </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'hb-button',
+      properties: {
+        label: {
+          type: String,
+          notify: true
+        },
+        field: {
+          type: Boolean,
+          notify: true
+        },
+        user_rights: {
+          type: Object,
+          notify: true,
+          value: { edit: true, view: true }
+        },
+        field_color: {
+          type: String,
+          value: 'green'
+        },
+        text_color: {
+          type: String,
+          value: 'white'
+        },
+        _boundOnClick: {
+          type: Function,
+          value: function( ) {
+            return this._handleOnClick.bind(this);
+          }
+        }
+      },
+      _handleOnClick: function( e ) {
+        this.fire('click_func');
+      },
+      ready: function( ) {
+       this.customStyle['--color'] = this.field_color;
+       this.customStyle['--text-color'] = this.text_color;
+      },
+      userRightsView: function( user_rights ) {
+        if (this.user_rights.view == true ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      userRightsEdit: function( user_rights ) {
+        if (this.user_rights.edit == true ) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      enableToast: function( message ) {
+        this.message = message;
+        this.querySelector('paper-toast').open();
+      }
+    });
+  </script>
+</dom-module>
