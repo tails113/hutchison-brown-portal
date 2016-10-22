@@ -26,19 +26,19 @@ def internal_500_error( exception ):
 @app.errorhandler( 404 )
 def internal_404_error( exception ):
      app.logger.exception( exception )
-     return 'Hutchison-Brown Portal<br/>\n%s<br/>\n%s' % ( exception, request.url ), 404
+     return 'Portal<br/>\n%s<br/>\n%s' % ( exception, request.url ), 404
 
 @app.errorhandler( 401 )
 def internal_401_error( exception ):
      app.logger.exception( exception )
-     return 'Hutchison-Brown<br/>\n%s<br/>\n%s' % ( exception, request.url ), 401
+     return 'Portal<br/>\n%s<br/>\n%s' % ( exception, request.url ), 401
 
 @app.route('/', methods=['GET'])
 def index( ):
     url = request.url_root
     domain_name = urlparse(url).netloc
     payload = {
-         "title": "Hutchison-Brown", "domain": domain_name
+         "domain": domain_name
     }
     return render_template('login.html', payload=payload)
 
