@@ -37,10 +37,63 @@ def internal_401_error( exception ):
 def index( ):
     url = request.url_root
     domain_name = urlparse(url).netloc
+
+    username = request.headers.get('X-Username', None)
+    if username == 'billy':
+         admin = True
+    else:
+         admin = False
+
+    # get content
+    # content = theme.get_content(domain, document)
+    content = None
+    
+    if not content:
+         content = {}
+         
     payload = {
          "domain": domain_name
     }
-    return render_template('login.html', payload=payload)
+    return render_template('index.html', payload=payload, content=content, admin=admin)
+
+@app.route('/<page>.html', methods=['GET'])
+def page( page ):
+    url = request.url_root
+    domain_name = urlparse(url).netloc
+
+    username = request.headers.get('X-Username', None)
+    if username in 'billy':
+         admin = True
+    else:
+         admin = False
+
+    # get content
+    # content = theme.get_content(domain, document)
+    content = None
+    
+    if not content:
+         content = {}
+
+    payload = {
+         "domain": domain_name
+    }
+    return render_template('%s.html' % page, payload=payload, content=content, admin=admin)
+
+@app.route("/save_page", methods=['POST'])
+def save_page():
+     content  = request.form
+     domain_name = urlparse(dict(request.headers).get('Referer')).netloc
+     # domain = theme.admin_check(domain_name)
+     path = urlparse(dict(request.headers).get('Referer')).path
+     document =  {
+          "content":content,
+          "meta": {
+               "domain": domain_name,
+               "path": path
+          }
+     }
+     # status = theme.save_content(domain, document)
+     return 'saved'
 
 if __name__ == "__main__":
      pass
